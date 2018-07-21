@@ -15,16 +15,6 @@ app.use(cors({optionSuccessStatus: 200}));  // some legacy browsers choke on 204
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
-/* http://expressjs.com/en/starter/basic-routing.html
-app.get("/", function (req, res) {
-  res.sendFile(__dirname + '/views/index.html');
-});
-
-
-// your first API endpoint... 
-app.get("/api/hello", function (req, res) {
-  res.json({greeting: 'hello API'});
-}); */
 
 app.get("/api/timestamp/:dateVal", function(req, res, next){
   
@@ -33,12 +23,12 @@ app.get("/api/timestamp/:dateVal", function(req, res, next){
   var dateVal = req.params.dateVal;
   var naturalDate = new Date(dateVal);
     
-  if (naturalDate) { //how do I test new Date can parse dateVal?
+  if (naturalDate == "Invalid Date") {
+    res.json({"error": "Invalid Date"})
+    } else {
       naturalDate = naturalDate.toUTCString();
       var unixDate = new Date(dateVal).getTime()/1000;
       res.json({"unix": unixDate, "UTC": naturalDate});
-    } else {
-      res.json({"error": "Invalid Date"})
     }
   
 })
